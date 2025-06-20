@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Consultas Agendadas</title>
+</head>
+<body>
+    <h2>Lista de Consultas Marcadas</h2>
+    <a href="{{ url_for('home') }}">← Voltar ao Início</a><br><br>
+
+    {% if consultas %}
+    <table border="1" cellpadding="8">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Paciente</th>
+                <th>Médico</th>
+                <th>Especialidade</th>
+                <th>Data</th>
+                <th>Horário</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in consultas %}
+            <tr>
+                <td>{{ c['id'] }}</td>
+                <td>{{ c['paciente'] }}</td>
+                <td>{{ c['medico'] }}</td>
+                <td>{{ c['especialidade'] }}</td>
+                <td>{{ c['data'] }}</td>
+                <td>{{ c['horario'] }}</td>
+                <td>{{ c['status'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>Nenhuma consulta agendada até o momento.</p>
+    {% endif %}
+</body>
+</html>

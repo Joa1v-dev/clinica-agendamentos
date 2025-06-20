@@ -135,6 +135,27 @@ def horarios_por_medico(medico_id):
 
     return horarios  # Flask 2.0+ retorna JSON automaticamente
 
+@app.route('/consultas')
+def listar_consultas():
+    if 'atendente_id' not in session:
+        return redirect(url_for('login'))
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute('''
+        SELECT c.id, u.nome AS paciente, m.nome AS medico, m.especialidade,
+               a.data, a.horario, c.status
+        FROM consulta c
+        JOIN usuario u ON c.usuario_id = u.id
+        JOIN agenda a ON c.agenda_id = a.id
+        JOIN medico m ON a.medico_id = m.id
+    ''')
+    consultas = cursor.fetchall()
+    conn.close()
+
+    return render_template('consultas.html', consultas=consultas)
+
 #Caminho para fazer logout
 @app.route('/logout')
 def logout():
