@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Comprovante de Agendamento</title>
+</head>
+<body>
+    <h2>Consulta Agendada com Sucesso!</h2>
+    <p><strong>Paciente:</strong> {{ consulta['paciente'] }}</p>
+    <p><strong>Médico:</strong> {{ consulta['medico'] }} ({{ consulta['especialidade'] }})</p>
+    <p><strong>Data:</strong> {{ consulta['data'] }}</p>
+    <p><strong>Horário:</strong> {{ consulta['horario'] }}</p>
+
+    <br><br>
+    <a href="{{ url_for('agendar') }}">← Agendar outra consulta</a><br>
+    <a href="{{ url_for('home') }}">🏠 Voltar ao início</a>
+</body>
+</html>

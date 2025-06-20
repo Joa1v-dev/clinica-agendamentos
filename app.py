@@ -57,22 +57,22 @@ def agendar():
         agenda = cursor.fetchone()
         if agenda and agenda['vagas_ocupadas'] < agenda['vagas_totais']:
             # Inserir consulta
-            cursor.execute('''
-                INSERT INTO consulta (usuario_id, agenda_id, status)
-                VALUES (?, ?, 'Agendado')
-            ''', (usuario_id, agenda_id))
+         cursor.execute('''
+            INSERT INTO consulta (usuario_id, agenda_id, status)
+            VALUES (?, ?, 'Agendado')
+        ''', (usuario_id, agenda_id))
+        consulta_id = cursor.lastrowid  # Captura o ID da nova consulta
 
-            # Atualizar vagas ocupadas
-            cursor.execute('''
-                UPDATE agenda SET vagas_ocupadas = vagas_ocupadas + 1 WHERE id = ?
-            ''', (agenda_id,))
+# Atualizar vagas ocupadas
+        cursor.execute('''
+            UPDATE agenda SET vagas_ocupadas = vagas_ocupadas + 1 WHERE id = ?
+        ''',  (agenda_id,))
 
-            conn.commit()
-            flash('Consulta agendada com sucesso!')
-            return redirect(url_for('agendar'))
+        conn.commit()
+        conn.close()
 
-        else:
-            flash('Não há mais vagas para esse horário.')
+# Redireciona para página de comprovante
+        return redirect(url_for('comprovante', consulta_id=consulta_id))
 
     # Pegar usuários
     cursor.execute('SELECT id, nome FROM usuario')
@@ -89,6 +89,29 @@ def agendar():
     conn.close()
 
     return render_template('agendar.html', usuarios=usuarios, agendas=agendas)
+
+@app.route('/comprovante/<int:consulta_id>')
+def comprovante(consulta_id):
+    if 'atendente_id' not in session:
+        return redirect(url_for('login'))
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute('''
+        SELECT c.id, u.nome AS paciente, m.nome AS medico, m.especialidade,
+               a.data, a.horario
+        FROM consulta c
+        JOIN usuario u ON c.usuario_id = u.id
+        JOIN agenda a ON c.agenda_id = a.id
+        JOIN medico m ON a.medico_id = m.id
+        WHERE c.id = ?
+    ''', (consulta_id,))
+    consulta = cursor.fetchone()
+    conn.close()
+
+    return render_template('comprovante.html', consulta=consulta)
+
 
 @app.route('/horarios/<int:medico_id>')
 def horarios_por_medico(medico_id):
