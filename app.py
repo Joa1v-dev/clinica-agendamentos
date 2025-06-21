@@ -1,9 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 import sqlite3
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = 'admin123'
-from datetime import datetime
 
 @app.template_filter('strftime')
 def format_datetime(value, format='%d/%m/%Y'):
@@ -129,6 +129,7 @@ def horarios_por_medico(medico_id):
         SELECT a.id, a.data, a.horario, a.vagas_totais, a.vagas_ocupadas
         FROM agenda a
         WHERE a.medico_id = ?
+        ORDER BY a.data, a.horario
     """, (medico_id,))
     agendas = cursor.fetchall()
     conn.close()
@@ -136,12 +137,14 @@ def horarios_por_medico(medico_id):
     horarios = []
     for a in agendas:
         vagas_disp = a['vagas_totais'] - a['vagas_ocupadas']
+        data_br = datetime.strptime(a['data'], '%Y-%m-%d').strftime('%d/%m/%Y')
         horarios.append({
             'id': a['id'],
-            'descricao': f"{a['data']} - {a['horario']} ({vagas_disp} vagas)"
+            'descricao': f"{a['data']} - {a['horario']}"
         })
 
-    return horarios  # Flask 2.0+ retorna JSON automaticamente
+
+    return horarios  # Flask 2.0+ retorna como JSON
 
 @app.route('/consultas')
 def listar_consultas():
