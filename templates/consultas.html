@@ -1,21 +1,33 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Consultas Agendadas</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
 </head>
 <body>
     <div class="container">
         <h2>📋 Consultas Agendadas</h2>
+
+        <form method="GET" action="{{ url_for('listar_consultas') }}">
+            <label for="data">Filtrar por data:</label>
+            <input type="date" id="data" name="data" value="{{ data_filtro }}">
+            <button type="submit" class="btn-primary">Filtrar</button>
+            {% if data_filtro %}
+                <a href="{{ url_for('listar_consultas') }}" class="btn-secondary" style="margin-left: 10px;">Limpar filtro</a>
+            {% endif %}
+        </form>
+        <br>
+
         <a href="{{ url_for('home') }}" class="btn-link">← Voltar ao Início</a>
 
-        {% if consultas %}
+        {% if mostrar_mensagem %}
+            <p>Por favor, selecione uma data para ver as consultas.</p>
+        {% elif consultas %}
             <div class="table-wrapper">
                 <table>
                     <thead>
                         <tr>
-                            <th>ID</th>
                             <th>Paciente</th>
                             <th>Médico</th>
                             <th>Especialidade</th>
@@ -28,11 +40,10 @@
                     <tbody>
                         {% for c in consultas %}
                         <tr>
-                            <td>{{ c['id'] }}</td>
                             <td>{{ c['paciente'] }}</td>
                             <td>{{ c['medico'] }}</td>
                             <td>{{ c['especialidade'] }}</td>
-                            <td>{{ c['data'] }}</td>
+                            <td>{{ c['data'].strftime('%d/%m/%Y') }}</td>
                             <td>{{ c['horario'] }}</td>
                             <td>{{ c['status'] }}</td>
                             <td>
@@ -53,7 +64,7 @@
                 </table>
             </div>
         {% else %}
-            <p>Nenhuma consulta agendada até o momento.</p>
+            <p>Nenhuma consulta agendada para a data selecionada.</p>
         {% endif %}
     </div>
 </body>

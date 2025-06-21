@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Reagendar Consulta</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
 </head>
 <body>
     <div class="container">
@@ -11,16 +11,52 @@
         <a class="btn-secondary" href="{{ url_for('listar_consultas') }}">← Voltar para Consultas</a>
         <br><br>
         <form method="POST" class="form">
-            <label for="agenda">Escolha um novo horário:</label>
-            <select name="agenda" id="agenda" required>
-                {% for a in agendas %}
-                    <option value="{{ a['agenda_id'] }}">
-                        {{ a['data'] }} – {{ a['horario'] }} – {{ a['medico'] }}
-                    </option>
+            <label for="medico">Médico</label>
+            <select name="medico" id="medico" required>
+                <option value="">Selecione um médico</option>
+                {% for medico in medicos %}
+                    <option value="{{ medico['id'] }}">{{ medico['nome'] }}</option>
                 {% endfor %}
             </select>
+
+            <label for="agenda">Escolha um novo horário:</label>
+            <select name="agenda" id="agenda" required>
+                <option value="">Escolha um médico primeiro</option>
+            </select>
+
             <button type="submit" class="btn-primary">✅ Confirmar</button>
         </form>
     </div>
+
+<script>
+document.getElementById('medico').addEventListener('change', function() {
+    const medicoId = this.value;
+    const selectAgenda = document.getElementById('agenda');
+    selectAgenda.innerHTML = '<option value="">Carregando horários...</option>';
+
+    if (!medicoId) {
+        selectAgenda.innerHTML = '<option value="">Escolha um médico primeiro</option>';
+        return;
+    }
+
+    fetch(`/horarios/${medicoId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.length === 0) {
+                selectAgenda.innerHTML = '<option value="">Nenhum horário disponível</option>';
+                return;
+            }
+            let options = '<option value="">Selecione um horário</option>';
+            data.forEach(item => {
+                options += `<option value="${item.id}">${item.descricao}</option>`;
+            });
+            selectAgenda.innerHTML = options;
+        })
+        .catch(err => {
+            console.error('Erro ao carregar horários:', err);
+            selectAgenda.innerHTML = '<option value="">Erro ao carregar horários</option>';
+        });
+});
+</script>
 </body>
 </html>

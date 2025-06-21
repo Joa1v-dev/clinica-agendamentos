@@ -1,4 +1,4 @@
-/* style.css */
+/* Base */
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -21,214 +21,146 @@ a:hover {
     text-decoration: underline;
 }
 
-table {
-    border-collapse: collapse;
-    width: 100%;
-    background-color: white;
-}
-
-table th, table td {
-    border: 1px solid #ccc;
-    padding: 10px;
-    text-align: left;
-}
-
-table th {
-    background-color: #f0f0f0;
-}
-
-button {
-    background-color: #5a5af0;
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background 0.3s;
-}
-
-button:hover {
-    background-color: #4a4ae0;
-}
-
-select, input[type="text"], input[type="email"], input[type="password"] {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 100%;
-    box-sizing: border-box;
-    margin-top: 5px;
-}
-
+/* Container geral */
 .container {
-    max-width: 1000px;
+    width: 100%;
+    max-width: none;
     margin: 30px auto;
-    padding: 20px;
+    padding: 20px 40px;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
 }
 
-.table-wrapper {
-    overflow-x: auto;
-}
+/* Formulários e campos */
 
-.btn-link {
-    display: inline-block;
-    margin-bottom: 20px;
-    color: #5a5af0;
-    text-decoration: none;
-}
-
-.btn-link:hover {
-    text-decoration: underline;
-}
-
-.btn-secondary {
-    background-color: #f0ad4e;
-    padding: 6px 10px;
-    border-radius: 4px;
-    font-size: 0.9rem;
-}
-
-.btn-danger {
-    background-color: #d9534f;
-    padding: 6px 10px;
-    border-radius: 4px;
-    font-size: 0.9rem;
-    margin-right: 5px;
-}
-
-.btn-secondary:hover {
-    background-color: #ec971f;
-}
-
-.btn-danger:hover {
-    background-color: #c9302c;
-}
-
-.actions {
-    margin: 30px 0;
+.form {
     display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
+    flex-direction: column;
 }
 
-.btn-primary, .btn-success {
-    padding: 10px 16px;
-    border: none;
+.form label {
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+.form select,
+.form input[type="text"],
+.form input[type="email"],
+.form input[type="password"] {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
     border-radius: 6px;
     font-size: 1rem;
-    color: white;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Botões */
+
+button,
+.btn-primary,
+.btn-success,
+.btn-danger,
+.btn-secondary {
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 10px 16px;
     text-decoration: none;
+    color: white;
     transition: background-color 0.3s ease;
 }
 
-.btn-primary {
-    background-color: #5a5af0;
+button:hover,
+.btn-primary:hover,
+.btn-success:hover,
+.btn-danger:hover,
+.btn-secondary:hover {
+    opacity: 0.9;
 }
 
-.btn-primary:hover {
-    background-color: #4848d6;
+.btn-primary {
+    background-color: #3498db;
+    font-weight: bold;
 }
 
 .btn-success {
     background-color: #28a745;
 }
 
-.btn-success:hover {
-    background-color: #218838;
-}
-
-.text-muted {
-    color: #777;
+.btn-danger {
+    background-color: #d9534f;
+    padding: 8px 12px;
     font-size: 0.9rem;
-}
-.login-container {
-    max-width: 400px;
-    margin: 80px auto;
-    padding: 30px;
-    border-radius: 10px;
-    background-color: white;
-    box-shadow: 0 0 12px rgba(0, 0, 0, 0.08);
-}
-
-.form {
-    display: flex;
-    flex-direction: column;
-}
-
-.form label {
-    margin-bottom: 6px;
-    font-weight: bold;
-}
-
-.form input {
-    padding: 10px;
-    margin-bottom: 16px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 1rem;
-}
-
-.flash-message {
-    background-color: #f8d7da;
-    color: #842029;
-    border: 1px solid #f5c2c7;
-    padding: 10px;
-    margin-bottom: 15px;
-    border-radius: 6px;
-}
-.container {
-    max-width: 600px;
-    margin: 50px auto;
-    padding: 30px;
-    background-color: white;
-    border-radius: 12px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.08);
-}
-
-.form {
-    display: flex;
-    flex-direction: column;
-}
-
-.form label {
-    font-weight: 600;
-    margin-bottom: 6px;
-}
-
-.form select, .form input {
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 1rem;
-}
-
-.btn-primary {
-    background-color: #3498db;
-    color: white;
-    padding: 12px;
-    font-weight: bold;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-.btn-primary:hover {
-    background-color: #2980b9;
+    margin-right: 5px;
 }
 
 .btn-secondary {
-    font-size: 0.95rem;
-    color: #3498db;
-    text-decoration: none;
+    background-color: #f0ad4e;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    color: white;
 }
 
-.btn-secondary:hover {
+.btn-link {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: #5a5af0;
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+.btn-link:hover {
     text-decoration: underline;
 }
+
+/* Tabela */
+
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 0.9rem;
+    background-color: white;
+}
+
+table th {
+    background-color: #f7f9fb;
+    padding: 10px;
+    text-align: left;
+    border-bottom: 2px solid #e2e6ea;
+    color: #333;
+}
+
+table td {
+    padding: 10px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+table tbody tr:hover {
+    background-color: #eef2f7;
+}
+
+td button,
+td form {
+    display: inline-block;
+    margin: 0 2px;
+}
+
+/* Flash messages */
 
 .flash-message {
     background-color: #eaf6ff;
@@ -240,17 +172,41 @@ select, input[type="text"], input[type="email"], input[type="password"] {
     font-weight: 500;
 }
 
+/* Página de login */
 
+.login-container {
+    max-width: 400px;
+    margin: 80px auto;
+    padding: 30px;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.08);
+}
 
-/* Responsive Design */
-@media (max-width: 600px) {
+/* Extras */
+
+.actions {
+    margin: 30px 0;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.text-muted {
+    color: #777;
+    font-size: 0.9rem;
+}
+
+/* Responsivo */
+
+@media (max-width: 768px) {
     .container {
         padding: 20px;
         margin: 20px;
     }
 
-    .form select, .form input {
-        font-size: 0.95rem;
+    table {
+        font-size: 0.85rem;
     }
 
     .btn-primary {

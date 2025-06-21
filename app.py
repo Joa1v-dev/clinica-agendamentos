@@ -88,6 +88,9 @@ def agendar():
     cursor.execute('SELECT id, nome FROM usuario')
     usuarios = cursor.fetchall()
 
+    cursor.execute('SELECT id, nome FROM medico ORDER BY nome')
+    medicos = cursor.fetchall()
+
     # Pegar agendas completas (id, data, horário e médico)
     cursor.execute('''
         SELECT a.id AS agenda_id, a.data, a.horario, m.nome AS medico
@@ -112,7 +115,7 @@ def agendar():
 
     conn.close()
 
-    return render_template('agendar.html', usuarios=usuarios, agendas=agendas)
+    return render_template('agendar.html', usuarios=usuarios, medicos=medicos)
 
 
 @app.route('/comprovante/<int:consulta_id>')
@@ -163,39 +166,48 @@ def horarios_por_medico(medico_id):
 
     return horarios  # Flask 2.0+ retorna como JSON
 
+from flask import request
+
 @app.route('/consultas')
 def listar_consultas():
     if 'atendente_id' not in session:
         return redirect(url_for('login'))
+
+    data_filtro = request.args.get('data')  # data no formato YYYY-MM-DD ou None
+
+    if not data_filtro:
+        # Se não escolheu data, retorna lista vazia para não mostrar consultas
+        consultas_formatadas = []
+        return render_template('consultas.html', consultas=consultas_formatadas, data_filtro=data_filtro, mostrar_mensagem=True)
 
     conn = get_db_connection()
     cursor = conn.cursor()
 
     cursor.execute('''
         SELECT c.id, u.nome AS paciente, m.nome AS medico, m.especialidade,
-           a.data, a.horario, c.status
+               a.data, a.horario, c.status
         FROM consulta c
         JOIN usuario u ON c.usuario_id = u.id
         JOIN agenda a ON c.agenda_id = a.id
         JOIN medico m ON a.medico_id = m.id
-        ORDER BY a.data ASC, a.horario ASC
-    ''')
+        WHERE a.data = ?
+        ORDER BY a.horario ASC
+    ''', (data_filtro,))
 
     consultas = cursor.fetchall()
-    
+
     from datetime import datetime
 
-# Converter a data de string para datetime
     consultas_formatadas = []
     for c in consultas:
-        c_dict = dict(c)  # converte para dicionário editável
+        c_dict = dict(c)
         c_dict['data'] = datetime.strptime(c_dict['data'], '%Y-%m-%d')
         consultas_formatadas.append(c_dict)
 
-
     conn.close()
 
-    return render_template('consultas.html', consultas=consultas_formatadas)
+    return render_template('consultas.html', consultas=consultas_formatadas, data_filtro=data_filtro, mostrar_mensagem=False)
+
 
 
 @app.route('/consulta/<int:consulta_id>/cancelar', methods=['POST'])
@@ -234,6 +246,7 @@ def reagendar_consulta(consulta_id):
 
     if request.method == 'POST':
         novo_agenda_id = request.form['agenda']
+
         cursor.execute('SELECT agenda_id FROM consulta WHERE id = ?', (consulta_id,))
         agenda_atual = cursor.fetchone()
 
@@ -241,8 +254,10 @@ def reagendar_consulta(consulta_id):
             cursor.execute('''
                 UPDATE consulta SET agenda_id = ?, status = 'Reagendado' WHERE id = ?
             ''', (novo_agenda_id, consulta_id))
+
             cursor.execute('UPDATE agenda SET vagas_ocupadas = vagas_ocupadas - 1 WHERE id = ?', (agenda_atual['agenda_id'],))
             cursor.execute('UPDATE agenda SET vagas_ocupadas = vagas_ocupadas + 1 WHERE id = ?', (novo_agenda_id,))
+
             conn.commit()
             flash('Consulta reagendada com sucesso!')
         else:
@@ -251,28 +266,15 @@ def reagendar_consulta(consulta_id):
         conn.close()
         return redirect(url_for('listar_consultas'))
 
-    # GET
-    cursor.execute('''
-        SELECT a.id AS agenda_id, a.data, a.horario, m.nome AS medico
-        FROM agenda a
-        JOIN medico m ON a.medico_id = m.id
-        WHERE a.vagas_ocupadas < a.vagas_totais
-        ORDER BY a.data, a.horario
-    ''')
-    agendas = cursor.fetchall()
-
-    agendas_formatadas = []
-    for a in agendas:
-        data_formatada = datetime.strptime(a['data'], '%Y-%m-%d').strftime('%d/%m/%Y')
-        agendas_formatadas.append({
-            'agenda_id': a['agenda_id'],
-            'data': data_formatada,
-            'horario': a['horario'],
-            'medico': a['medico']
-        })
+    # GET: envia médicos para popular select
+    cursor.execute('SELECT id, nome FROM medico ORDER BY nome')
+    medicos = cursor.fetchall()
 
     conn.close()
-    return render_template('reagendar.html', consulta_id=consulta_id, agendas=agendas_formatadas)
+
+    return render_template('reagendar.html', consulta_id=consulta_id, medicos=medicos)
+
+
 
 
 #Caminho para fazer logout
