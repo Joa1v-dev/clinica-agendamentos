@@ -1,0 +1,104 @@
+/* login.css */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f6f8;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+.login-container {
+    max-width: 400px;
+    margin: 80px auto;
+    padding: 30px;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.08);
+}
+
+h2 {
+    color: #2c3e50;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form label {
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+.form input {
+    padding: 10px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    background-color: #fff;
+    color: #333;
+}
+
+button {
+    background-color: #3498db;
+    color: white;
+    padding: 12px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+.flash-message {
+    background-color: #f8d7da;
+    color: #842029;
+    border: 1px solid #f5c2c7;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+}
+
+/* 🌙 Dark Mode */
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #121212;
+        color: #e0e0e0;
+    }
+
+    .login-container {
+        background-color: #1e1e1e;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    }
+
+    h2 {
+        color: #fff;
+    }
+
+    .form input {
+        background-color: #2a2a2a;
+        color: #e0e0e0;
+        border: 1px solid #555;
+    }
+
+    button {
+        background-color: #1976d2;
+    }
+
+    button:hover {
+        background-color: #1565c0;
+    }
+
+    .flash-message {
+        background-color: #512b2b;
+        color: #f8d7da;
+        border: 1px solid #a94442;
+    }
+}
