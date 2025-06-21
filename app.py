@@ -3,6 +3,14 @@ import sqlite3
 
 app = Flask(__name__)
 app.secret_key = 'admin123'
+from datetime import datetime
+
+@app.template_filter('strftime')
+def format_datetime(value, format='%d/%m/%Y'):
+    if isinstance(value, datetime):
+        return value.strftime(format)
+    return value  # Se não for datetime, retorna como está
+
 
 #Criando função para conectar o banco
 def get_db_connection():
@@ -145,16 +153,30 @@ def listar_consultas():
 
     cursor.execute('''
         SELECT c.id, u.nome AS paciente, m.nome AS medico, m.especialidade,
-               a.data, a.horario, c.status
+           a.data, a.horario, c.status
         FROM consulta c
         JOIN usuario u ON c.usuario_id = u.id
         JOIN agenda a ON c.agenda_id = a.id
         JOIN medico m ON a.medico_id = m.id
+        ORDER BY a.data ASC, a.horario ASC
     ''')
+
     consultas = cursor.fetchall()
+    
+    from datetime import datetime
+
+# Converter a data de string para datetime
+    consultas_formatadas = []
+    for c in consultas:
+        c_dict = dict(c)  # converte para dicionário editável
+        c_dict['data'] = datetime.strptime(c_dict['data'], '%Y-%m-%d')
+        consultas_formatadas.append(c_dict)
+
+
     conn.close()
 
-    return render_template('consultas.html', consultas=consultas)
+    return render_template('consultas.html', consultas=consultas_formatadas)
+
 
 @app.route('/consulta/<int:consulta_id>/cancelar', methods=['POST'])
 def cancelar_consulta(consulta_id):

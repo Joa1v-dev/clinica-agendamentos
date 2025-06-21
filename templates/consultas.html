@@ -29,7 +29,7 @@
                     <td>{{ c['paciente'] }}</td>
                     <td>{{ c['medico'] }}</td>
                     <td>{{ c['especialidade'] }}</td>
-                    <td>{{ c['data'] }}</td>
+                    <td>{{ c['data']|strftime('%d/%m/%Y') }}</td>
                     <td>{{ c['horario'] }}</td>
                     <td>{{ c['status'] }}</td>
                     <td>
