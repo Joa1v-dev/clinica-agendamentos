@@ -65,38 +65,55 @@ def agendar():
         agenda = cursor.fetchone()
         if agenda and agenda['vagas_ocupadas'] < agenda['vagas_totais']:
             # Inserir consulta
-         cursor.execute('''
-            INSERT INTO consulta (usuario_id, agenda_id, status)
-            VALUES (?, ?, 'Agendado')
-        ''', (usuario_id, agenda_id))
-        consulta_id = cursor.lastrowid  # Captura o ID da nova consulta
+            cursor.execute('''
+                INSERT INTO consulta (usuario_id, agenda_id, status)
+                VALUES (?, ?, 'Agendado')
+            ''', (usuario_id, agenda_id))
+            consulta_id = cursor.lastrowid  # Captura o ID da nova consulta
 
-# Atualizar vagas ocupadas
-        cursor.execute('''
-            UPDATE agenda SET vagas_ocupadas = vagas_ocupadas + 1 WHERE id = ?
-        ''',  (agenda_id,))
+            # Atualizar vagas ocupadas
+            cursor.execute('''
+                UPDATE agenda SET vagas_ocupadas = vagas_ocupadas + 1 WHERE id = ?
+            ''', (agenda_id,))
 
-        conn.commit()
-        conn.close()
+            conn.commit()
+            conn.close()
 
-# Redireciona para página de comprovante
-        return redirect(url_for('comprovante', consulta_id=consulta_id))
+            # Redireciona para página de comprovante
+            return redirect(url_for('comprovante', consulta_id=consulta_id))
+        else:
+            flash('Horário indisponível. Por favor, escolha outro.')
 
     # Pegar usuários
     cursor.execute('SELECT id, nome FROM usuario')
     usuarios = cursor.fetchall()
 
-# Pegar médicos distintos das agendas
+    # Pegar agendas completas (id, data, horário e médico)
     cursor.execute('''
-    SELECT DISTINCT m.id as medico_id, m.nome as medico
-    FROM agenda a
-    JOIN medico m ON a.medico_id = m.id
-''')
-    agendas = cursor.fetchall()
+        SELECT a.id AS agenda_id, a.data, a.horario, m.nome AS medico
+        FROM agenda a
+        JOIN medico m ON a.medico_id = m.id
+        WHERE a.vagas_ocupadas < a.vagas_totais
+        ORDER BY a.data, a.horario
+    ''')
+    agendas_raw = cursor.fetchall()
+
+    # Formatar datas para dd/mm/yyyy
+    from datetime import datetime
+    agendas = []
+    for a in agendas_raw:
+        data_formatada = datetime.strptime(a['data'], '%Y-%m-%d').strftime('%d/%m/%Y')
+        agendas.append({
+            'agenda_id': a['agenda_id'],
+            'data': data_formatada,
+            'horario': a['horario'],
+            'medico': a['medico']
+        })
 
     conn.close()
 
     return render_template('agendar.html', usuarios=usuarios, agendas=agendas)
+
 
 @app.route('/comprovante/<int:consulta_id>')
 def comprovante(consulta_id):
@@ -211,33 +228,21 @@ def cancelar_consulta(consulta_id):
 def reagendar_consulta(consulta_id):
     if 'atendente_id' not in session:
         return redirect(url_for('login'))
-    
+
     conn = get_db_connection()
     cursor = conn.cursor()
 
     if request.method == 'POST':
         novo_agenda_id = request.form['agenda']
-
-        # pegar agenda atual
         cursor.execute('SELECT agenda_id FROM consulta WHERE id = ?', (consulta_id,))
         agenda_atual = cursor.fetchone()
 
         if agenda_atual:
-            # atualizar consulta com novo horário
             cursor.execute('''
                 UPDATE consulta SET agenda_id = ?, status = 'Reagendado' WHERE id = ?
             ''', (novo_agenda_id, consulta_id))
-
-            # liberar vaga anterior
-            cursor.execute('''
-                UPDATE agenda SET vagas_ocupadas = vagas_ocupadas - 1 WHERE id = ?
-            ''', (agenda_atual['agenda_id'],))
-
-            # ocupar nova vaga
-            cursor.execute('''
-                UPDATE agenda SET vagas_ocupadas = vagas_ocupadas + 1 WHERE id = ?
-            ''', (novo_agenda_id,))
-
+            cursor.execute('UPDATE agenda SET vagas_ocupadas = vagas_ocupadas - 1 WHERE id = ?', (agenda_atual['agenda_id'],))
+            cursor.execute('UPDATE agenda SET vagas_ocupadas = vagas_ocupadas + 1 WHERE id = ?', (novo_agenda_id,))
             conn.commit()
             flash('Consulta reagendada com sucesso!')
         else:
@@ -246,31 +251,28 @@ def reagendar_consulta(consulta_id):
         conn.close()
         return redirect(url_for('listar_consultas'))
 
-    # GET: Exibir formulário de reagendamento
+    # GET
     cursor.execute('''
-        SELECT c.id AS consulta_id, a.id AS agenda_id, a.data, a.horario, m.nome AS medico
-        FROM consulta c
-        JOIN agenda a ON c.agenda_id = a.id
+        SELECT a.id AS agenda_id, a.data, a.horario, m.nome AS medico
+        FROM agenda a
         JOIN medico m ON a.medico_id = m.id
-        WHERE c.id = ?
-    ''', (consulta_id,))
-    consulta_atual = cursor.fetchone()
-
-    cursor.execute('''
-        SELECT DISTINCT m.id, m.nome
-        FROM medico m
-        JOIN agenda a ON a.medico_id = m.id
+        WHERE a.vagas_ocupadas < a.vagas_totais
+        ORDER BY a.data, a.horario
     ''')
-    medicos = cursor.fetchall()
+    agendas = cursor.fetchall()
+
+    agendas_formatadas = []
+    for a in agendas:
+        data_formatada = datetime.strptime(a['data'], '%Y-%m-%d').strftime('%d/%m/%Y')
+        agendas_formatadas.append({
+            'agenda_id': a['agenda_id'],
+            'data': data_formatada,
+            'horario': a['horario'],
+            'medico': a['medico']
+        })
 
     conn.close()
-
-    return render_template(
-        'reagendar.html',
-        consulta_id=consulta_id,
-        consulta_atual=consulta_atual,
-        medicos=medicos
-    )
+    return render_template('reagendar.html', consulta_id=consulta_id, agendas=agendas_formatadas)
 
 
 #Caminho para fazer logout

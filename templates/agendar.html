@@ -1,56 +1,44 @@
-<h2>Agendar Consulta</h2>
-<a href="{{ url_for('home') }}">← Voltar</a><br><br>
-{% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <ul>
-      {% for message in messages %}
-        <li style="color:green;">{{ message }}</li>
-      {% endfor %}
-    </ul>
-  {% endif %}
-{% endwith %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Agendar Consulta</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>📅 Agendar Consulta</h2>
+        <a href="{{ url_for('home') }}" class="btn-secondary">← Voltar ao Início</a><br><br>
 
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="flash-message">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% endwith %}
 
-<form method="POST">
-    <label>Paciente:</label><br>
-    <select name="usuario" required>
-        {% for u in usuarios %}
-        <option value="{{ u['id'] }}">{{ u['nome'] }}</option>
-        {% endfor %}
-    </select><br><br>
+        <form method="POST" class="form">
+            <label for="usuario">Paciente</label>
+            <select name="usuario" id="usuario" required>
+                <option value="">Selecione um paciente</option>
+                {% for u in usuarios %}
+                    <option value="{{ u['id'] }}">{{ u['nome'] }}</option>
+                {% endfor %}
+            </select>
 
-    <label>Médico:</label><br>
-    <select id="medico-select" required>
-        <option value="">Selecione um médico</option>
-        {% for a in agendas %}
-        <option value="{{ a['medico_id'] }}">{{ a['medico'] }}</option>
-        {% endfor %}
-    </select><br><br>
+            <label for="agenda">Horário e Médico</label>
+            <select name="agenda" id="agenda" required>
+                <option value="">Selecione um horário</option>
+                {% for a in agendas %}
+                    <option value="{{ a['agenda_id'] }}">{{ a['data'] }} – {{ a['horario'] }} – Dr(a). {{ a['medico'] }}</option>
+                {% endfor %}
+            </select>
 
-    <label>Horários disponíveis:</label><br>
-    <select name="agenda" id="horario-select" required>
-        <option value="">Selecione um horário</option>
-    </select><br><br>
-
-    <button type="submit">Agendar</button>
-</form>
-
-<script>
-document.getElementById("medico-select").addEventListener("change", function() {
-    let medicoId = this.value;
-    let horarioSelect = document.getElementById("horario-select");
-    horarioSelect.innerHTML = '<option>Carregando...</option>';
-
-    fetch(`/horarios/${medicoId}`)
-        .then(res => res.json())
-        .then(data => {
-            horarioSelect.innerHTML = '<option value="">Selecione um horário</option>';
-            data.forEach(horario => {
-                let opt = document.createElement("option");
-                opt.value = horario.id;
-                opt.text = horario.descricao;
-                horarioSelect.appendChild(opt);
-            });
-        });
-});
-</script>
+            <button type="submit" class="btn-primary">✅ Confirmar Agendamento</button>
+        </form>
+    </div>
+</body>
+</html>

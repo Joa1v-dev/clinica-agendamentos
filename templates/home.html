@@ -3,14 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bem-Vindo</title>
+    <title>Bem-vindo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h2>Olá, {{ nome }}!</h2>
-    <p><a href="{{ url_for('listar_consultas') }}">📋 Ver consultas agendadas</a></p>
-    <p><a href="{{url_for('agendar') }}">Agendar nova consulta</a></p>
-    <p>Você está logado como atendente.</p>
-    <a href="{{ url_for('logout') }}">Sair</a>
-    
+    <div class="container">
+        <h2>👋 Olá, {{ nome }}!</h2>
+        <p>Bem-vindo(a) ao sistema de agendamento da clínica.</p>
+
+        <div class="actions">
+            <a href="{{ url_for('listar_consultas') }}" class="btn-primary">📋 Ver Consultas Agendadas</a>
+            <a href="{{ url_for('agendar') }}" class="btn-success">➕ Agendar Nova Consulta</a>
+        </div>
+
+        <p class="text-muted">Você está logado como atendente.</p>
+        <a href="{{ url_for('logout') }}" class="btn-link">🔓 Sair</a>
+    </div>
 </body>
 </html>

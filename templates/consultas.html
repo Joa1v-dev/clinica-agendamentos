@@ -3,53 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <title>Consultas Agendadas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h2>Lista de Consultas Marcadas</h2>
-    <a href="{{ url_for('home') }}">← Voltar ao Início</a><br><br>
+    <div class="container">
+        <h2>📋 Consultas Agendadas</h2>
+        <a href="{{ url_for('home') }}" class="btn-link">← Voltar ao Início</a>
 
-    {% if consultas %}
-        <table border="1" cellpadding="8">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Paciente</th>
-                    <th>Médico</th>
-                    <th>Especialidade</th>
-                    <th>Data</th>
-                    <th>Horário</th>
-                    <th>Status</th>
-                    <th>Ações</th> <!-- Sempre exibe a coluna -->
-                </tr>
-            </thead>
-            <tbody>
-                {% for c in consultas %}
-                <tr>
-                    <td>{{ c['id'] }}</td>
-                    <td>{{ c['paciente'] }}</td>
-                    <td>{{ c['medico'] }}</td>
-                    <td>{{ c['especialidade'] }}</td>
-                    <td>{{ c['data']|strftime('%d/%m/%Y') }}</td>
-                    <td>{{ c['horario'] }}</td>
-                    <td>{{ c['status'] }}</td>
-                    <td>
-                        {% if c['status'] in ['Agendado', 'Reagendado'] %}
-                            <form action="{{ url_for('cancelar_consulta', consulta_id=c['id']) }}" method="POST" style="display:inline;">
-                                <button type="submit" onclick="return confirm('Tem certeza que deseja cancelar esta consulta?')">❌ Cancelar</button>
-                            </form>
-                            <form action="{{ url_for('reagendar_consulta', consulta_id=c['id']) }}" method="GET" style="display:inline;">
-                                <button type="submit">♻️ Reagendar</button>
-                            </form>
-                        {% else %}
-                            <em>—</em>
-                        {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <p>Nenhuma consulta agendada até o momento.</p>
-    {% endif %}
+        {% if consultas %}
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Paciente</th>
+                            <th>Médico</th>
+                            <th>Especialidade</th>
+                            <th>Data</th>
+                            <th>Horário</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for c in consultas %}
+                        <tr>
+                            <td>{{ c['id'] }}</td>
+                            <td>{{ c['paciente'] }}</td>
+                            <td>{{ c['medico'] }}</td>
+                            <td>{{ c['especialidade'] }}</td>
+                            <td>{{ c['data'] }}</td>
+                            <td>{{ c['horario'] }}</td>
+                            <td>{{ c['status'] }}</td>
+                            <td>
+                                {% if c['status'] in ['Agendado', 'Reagendado'] %}
+                                    <form action="{{ url_for('cancelar_consulta', consulta_id=c['id']) }}" method="POST" style="display:inline;">
+                                        <button type="submit" class="btn-danger" onclick="return confirm('Tem certeza que deseja cancelar esta consulta?')">❌ Cancelar</button>
+                                    </form>
+                                    <form action="{{ url_for('reagendar_consulta', consulta_id=c['id']) }}" method="GET" style="display:inline;">
+                                        <button type="submit" class="btn-secondary">♻️ Reagendar</button>
+                                    </form>
+                                {% else %}
+                                    <em>—</em>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p>Nenhuma consulta agendada até o momento.</p>
+        {% endif %}
+    </div>
 </body>
 </html>
