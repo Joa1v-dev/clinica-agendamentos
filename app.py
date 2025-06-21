@@ -156,6 +156,90 @@ def listar_consultas():
 
     return render_template('consultas.html', consultas=consultas)
 
+@app.route('/consulta/<int:consulta_id>/cancelar', methods=['POST'])
+def cancelar_consulta(consulta_id):
+    if 'atendente_id' not in session:
+        return redirect(url_for('login'))
+    
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    # Pegar agenda vinculada para liberar a vaga
+    cursor.execute('SELECT agenda_id FROM consulta WHERE id = ?', (consulta_id,))
+    agenda_id = cursor.fetchone()
+
+    #cancelar consulta
+    cursor.execute('UPDATE consulta SET status = "Cancelada" WHERE id = ?', (consulta_id,))
+
+    #liberar vaga na agenda
+    if agenda_id:
+        cursor.execute('''
+            UPDATE agenda SET vagas_ocupadas = vagas_ocupadas - 1 WHERE id = ?
+        ''', (agenda_id['agenda_id'],))
+
+    conn.commit()
+    conn.close()
+    flash('Consulta cancelada com sucesso!')
+    return redirect(url_for('listar_consultas'))
+
+@app.route('/reagendar/<int:consulta_id>', methods=['GET', 'POST'])
+def reagendar_consulta(consulta_id):
+    if 'atendente_id' not in session:
+        return redirect(url_for('login'))
+    
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    if request.method == 'POST':
+        novo_agenda_id = request.form['agenda']
+
+        #pegar agenda atual
+        cursor.execute('SELECT agenda_id FROM consulta WHERE id = ?', (consulta_id,))
+        agenda_atual = cursor.fetchone()
+
+        if agenda_atual:
+        #atualizar consulta com um novo horário
+            cursor.execute('''
+                UPDATE consulta SET agenda_id = ?, status = 'Reagendado' WHERE id = ?
+            ''', (novo_agenda_id, consulta_id))
+
+            #liberar vaga anterior
+            cursor.execute('''
+                UPDATE agenda SET vagas_ocupadas = vagas_ocupadas - 1 WHERE id = ?
+            ''', (agenda_atual['agenda_id'],))
+
+            #Ocupar nova vaga
+            cursor.execute('''
+                UPDATE agenda SET vagas_ocupadas = vagas_ocupadas + 1 WHERE id = ?
+            ''', (novo_agenda_id,))
+
+            conn.commit()
+            flash('Consulta reagendada com sucesso!')
+        else:
+            flash('Consulta não encontrada.')
+
+        conn.close()
+        return redirect(url_for('listar_consultas'))
+
+    # GET: Exibir opções de reagendamento
+    cursor.execute('SELECT id, nome FROM usuario')
+    usuarios = cursor.fetchall()
+
+    cursor.execute('''
+        SELECT a.id AS agenda_id, a.data, a.horario, m.nome AS medico
+        FROM agenda a
+        JOIN medico m ON a.medico_id = m.id
+        WHERE a.vagas_ocupadas < a.vagas_totais
+        ORDER BY a.data, a.horario
+    ''')
+    agendas = cursor.fetchall()
+
+    conn.close()
+
+    return render_template('reagendar.html', consulta_id=consulta_id, usuarios=usuarios, agendas=agendas)
+
+
+
 #Caminho para fazer logout
 @app.route('/logout')
 def logout():

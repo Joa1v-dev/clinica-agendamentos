@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Reagendar Consulta</title>
+</head>
+<body>
+    <h2>Reagendar Consulta</h2>
+    <a href="{{ url_for('listar_consultas') }}">← Voltar para Lista de Consultas</a><br><br>
+
+    <form method="POST">
+        <label for="agenda">Escolha um novo horário disponível:</label><br><br>
+        <select name="agenda" id="agenda" required>
+            {% for a in agendas %}
+                <option value="{{ a['agenda_id'] }}">
+                    {{ a['data'] }} – {{ a['horario'] }} – {{ a['medico'] }}
+                </option>
+            {% endfor %}
+        </select><br><br>
+
+        <button type="submit">✅ Confirmar Reagendamento</button>
+    </form>
+</body>
+</html>
