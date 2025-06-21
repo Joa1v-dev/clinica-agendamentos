@@ -243,17 +243,7 @@ def reagendar_consulta(consulta_id):
         conn.close()
         return redirect(url_for('listar_consultas'))
 
-    # GET: pegar agendas disponíveis
-    cursor.execute('''
-        SELECT a.id AS agenda_id, a.data, a.horario, m.nome AS medico
-        FROM agenda a
-        JOIN medico m ON a.medico_id = m.id
-        WHERE a.vagas_ocupadas < a.vagas_totais
-        ORDER BY a.data, a.horario
-    ''')
-    agendas = cursor.fetchall()
-
-    # pegar dados da consulta atual
+    # GET: Exibir formulário de reagendamento
     cursor.execute('''
         SELECT c.id AS consulta_id, a.id AS agenda_id, a.data, a.horario, m.nome AS medico
         FROM consulta c
@@ -263,15 +253,21 @@ def reagendar_consulta(consulta_id):
     ''', (consulta_id,))
     consulta_atual = cursor.fetchone()
 
+    cursor.execute('''
+        SELECT DISTINCT m.id, m.nome
+        FROM medico m
+        JOIN agenda a ON a.medico_id = m.id
+    ''')
+    medicos = cursor.fetchall()
+
     conn.close()
 
-    return render_template('reagendar.html',
-                           consulta_id=consulta_id,
-                           agendas=agendas,
-                           consulta_atual=consulta_atual)
-
-
-
+    return render_template(
+        'reagendar.html',
+        consulta_id=consulta_id,
+        consulta_atual=consulta_atual,
+        medicos=medicos
+    )
 
 
 #Caminho para fazer logout

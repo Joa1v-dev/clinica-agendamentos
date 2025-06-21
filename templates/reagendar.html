@@ -8,23 +8,43 @@
     <h2>Reagendar Consulta</h2>
     <a href="{{ url_for('listar_consultas') }}">← Voltar para Lista de Consultas</a><br><br>
 
-    {% if consulta_atual %}
-        <p><strong>Consulta atual:</strong> {{ consulta_atual['data'] }} – {{ consulta_atual['horario'] }} – {{ consulta_atual['medico'] }}</p>
-    {% endif %}
+    <p><strong>Consulta atual:</strong> {{ consulta_atual['data'] }} – {{ consulta_atual['horario'] }} – {{ consulta_atual['medico'] }}</p>
 
     <form method="POST">
-        <label for="agenda">Escolha um novo horário disponível:</label><br><br>
-        <select name="agenda" id="agenda" required>
-            {% for a in agendas %}
-                {% if consulta_atual is none or a['agenda_id'] != consulta_atual['agenda_id'] %}
-                    <option value="{{ a['agenda_id'] }}">
-                        {{ a['data'] }} – {{ a['horario'] }} – {{ a['medico'] }}
-                    </option>
-                {% endif %}
+        <label for="medico">Escolha o médico:</label><br>
+        <select name="medico" id="medico" required>
+            <option value="">-- Selecione o médico --</option>
+            {% for m in medicos %}
+                <option value="{{ m['id'] }}">{{ m['nome'] }}</option>
             {% endfor %}
+        </select><br><br>
+
+        <label for="agenda">Escolha um horário:</label><br>
+        <select name="agenda" id="agenda" required>
+            <option value="">-- Selecione um horário --</option>
         </select><br><br>
 
         <button type="submit">✅ Confirmar Reagendamento</button>
     </form>
+
+    <script>
+    document.getElementById('medico').addEventListener('change', function () {
+        var medicoId = this.value;
+        var agendaSelect = document.getElementById('agenda');
+        agendaSelect.innerHTML = '<option>Carregando...</option>';
+
+        fetch('/horarios/' + medicoId)
+            .then(response => response.json())
+            .then(data => {
+                agendaSelect.innerHTML = '<option value="">-- Selecione um horário --</option>';
+                data.forEach(function (horario) {
+                    var option = document.createElement('option');
+                    option.value = horario.id;
+                    option.textContent = horario.descricao;
+                    agendaSelect.appendChild(option);
+                });
+            });
+    });
+    </script>
 </body>
 </html>
