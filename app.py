@@ -193,22 +193,22 @@ def reagendar_consulta(consulta_id):
     if request.method == 'POST':
         novo_agenda_id = request.form['agenda']
 
-        #pegar agenda atual
+        # pegar agenda atual
         cursor.execute('SELECT agenda_id FROM consulta WHERE id = ?', (consulta_id,))
         agenda_atual = cursor.fetchone()
 
         if agenda_atual:
-        #atualizar consulta com um novo horário
+            # atualizar consulta com novo horário
             cursor.execute('''
                 UPDATE consulta SET agenda_id = ?, status = 'Reagendado' WHERE id = ?
             ''', (novo_agenda_id, consulta_id))
 
-            #liberar vaga anterior
+            # liberar vaga anterior
             cursor.execute('''
                 UPDATE agenda SET vagas_ocupadas = vagas_ocupadas - 1 WHERE id = ?
             ''', (agenda_atual['agenda_id'],))
 
-            #Ocupar nova vaga
+            # ocupar nova vaga
             cursor.execute('''
                 UPDATE agenda SET vagas_ocupadas = vagas_ocupadas + 1 WHERE id = ?
             ''', (novo_agenda_id,))
@@ -221,10 +221,7 @@ def reagendar_consulta(consulta_id):
         conn.close()
         return redirect(url_for('listar_consultas'))
 
-    # GET: Exibir opções de reagendamento
-    cursor.execute('SELECT id, nome FROM usuario')
-    usuarios = cursor.fetchall()
-
+    # GET: pegar agendas disponíveis
     cursor.execute('''
         SELECT a.id AS agenda_id, a.data, a.horario, m.nome AS medico
         FROM agenda a
@@ -234,9 +231,24 @@ def reagendar_consulta(consulta_id):
     ''')
     agendas = cursor.fetchall()
 
+    # pegar dados da consulta atual
+    cursor.execute('''
+        SELECT c.id AS consulta_id, a.id AS agenda_id, a.data, a.horario, m.nome AS medico
+        FROM consulta c
+        JOIN agenda a ON c.agenda_id = a.id
+        JOIN medico m ON a.medico_id = m.id
+        WHERE c.id = ?
+    ''', (consulta_id,))
+    consulta_atual = cursor.fetchone()
+
     conn.close()
 
-    return render_template('reagendar.html', consulta_id=consulta_id, usuarios=usuarios, agendas=agendas)
+    return render_template('reagendar.html',
+                           consulta_id=consulta_id,
+                           agendas=agendas,
+                           consulta_atual=consulta_atual)
+
+
 
 
 

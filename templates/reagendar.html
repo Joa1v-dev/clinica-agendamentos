@@ -8,13 +8,19 @@
     <h2>Reagendar Consulta</h2>
     <a href="{{ url_for('listar_consultas') }}">← Voltar para Lista de Consultas</a><br><br>
 
+    {% if consulta_atual %}
+        <p><strong>Consulta atual:</strong> {{ consulta_atual['data'] }} – {{ consulta_atual['horario'] }} – {{ consulta_atual['medico'] }}</p>
+    {% endif %}
+
     <form method="POST">
         <label for="agenda">Escolha um novo horário disponível:</label><br><br>
         <select name="agenda" id="agenda" required>
             {% for a in agendas %}
-                <option value="{{ a['agenda_id'] }}">
-                    {{ a['data'] }} – {{ a['horario'] }} – {{ a['medico'] }}
-                </option>
+                {% if consulta_atual is none or a['agenda_id'] != consulta_atual['agenda_id'] %}
+                    <option value="{{ a['agenda_id'] }}">
+                        {{ a['data'] }} – {{ a['horario'] }} – {{ a['medico'] }}
+                    </option>
+                {% endif %}
             {% endfor %}
         </select><br><br>
 
