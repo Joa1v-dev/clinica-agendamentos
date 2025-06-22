@@ -31,22 +31,22 @@ Aplicação web desenvolvida com **Flask** e **SQLite** para o gerenciamento de 
 
 ## 📁 Estrutura do Projeto
 
-/clinica-agendamentos/
-├── app.py
-├── requirements.txt
-├── templates/
-│ ├── login.html
-│ ├── home.html
-│ ├── agendar.html
-│ ├── comprovante.html
-│ ├── consultas.html
-│ ├── reagendar.html
-│ └── cadastro_usuario.html
-├── static/
-│ ├── style.css
-│ ├── login.css
-│ └── img/
-│ └── fundo_azul.jpg
+/clinica-agendamentos/ <br>
+├── app.py<br>
+├── requirements.txt<br>
+├── templates/<br>
+│ ├── login.html<br>
+│ ├── home.html<br>
+│ ├── agendar.html<br>
+│ ├── comprovante.html<br>
+│ ├── consultas.html<br>
+│ ├── reagendar.html<br>
+│ └── cadastro_usuario.html<br>
+├── static/<br>
+│ ├── style.css<br>
+│ ├── login.css<br>
+│ └── img/<br>
+│ └── fundo_azul.jpg<br>
 
 
 ---
@@ -77,7 +77,7 @@ python app.py
 
 4. **Acesse o sistema no navegador**
 
-   *http://localhost:8080*
+   *http://localhost:5000*
 
 ---
 
@@ -86,8 +86,8 @@ python app.py
 ![Tela de Login](static/img/tela_login.png)
 
 
-E-mail:admin@admin
-Senha:admin
+E-mail:admin@admin<br>
+Senha:admin<br>
 
 ---
 
