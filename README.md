@@ -35,18 +35,20 @@ Aplicação web desenvolvida com **Flask** e **SQLite** para o gerenciamento de 
 ├── app.py<br>
 ├── requirements.txt<br>
 ├── templates/<br>
-│ ├── login.html<br>
-│ ├── home.html<br>
-│ ├── agendar.html<br>
-│ ├── comprovante.html<br>
-│ ├── consultas.html<br>
-│ ├── reagendar.html<br>
-│ └── cadastro_usuario.html<br>
+│   ├── login.html<br>
+│   ├── home.html<br>
+│   ├── agendar.html<br>
+│   ├── comprovante.html<br>
+│   ├── consultas.html<br>
+│   ├── reagendar.html<br>
+│   └── cadastro_usuario.html<br>
 ├── static/<br>
-│ ├── style.css<br>
-│ ├── login.css<br>
-│ └── img/<br>
-│ └── fundo_azul.jpg<br>
+│   ├── style.css<br>
+│   ├── login.css<br>
+│   └── img/<br>
+│       └── fundo_azul.jpg<br>
+│       └── fundo_azul.jpg<br>
+
 
 
 ---
@@ -83,8 +85,6 @@ python app.py
 
 5. **E-mail e Senha para Acesso**
 
-<img src="static/img/tela_login.png" alt="Tela de Login" width="400"/>
-
 **E-mail**: `admin@admin`<br>
 **Senha**: `admin`<br>
 
@@ -101,6 +101,19 @@ O sistema conta com uma interface moderna e leve, feita com HTML e CSS puro:
 - 🔄 Componentes reativos (horários por médico via JavaScript)
 
 ---
+
+## 💻Demonstração das Telas
+
+**Tela de Login**
+<img src="static/img/tela_login.png" alt="Tela de Login" width="400"/> <br>
+
+**Tela Inicial**
+<img src="static/img/tela_inicial.png" alt="Tela Inicial" width="400"/> <br>
+
+
+
+---
+
 
 ## 📌 Status do Projeto
 
