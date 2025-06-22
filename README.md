@@ -47,8 +47,13 @@ Aplicação web desenvolvida com **Flask** e **SQLite** para o gerenciamento de 
 │   ├── login.css<br>
 │   └── img/<br>
 │       └── fundo_azul.jpg<br>
-│       └── fundo_azul.jpg<br>
-
+│       └── tela_agendamento.png<br>
+│       └── tela_agendas.png<br>
+│       └── tela_cadastro.png<br>
+│       └── tela_consulta.png<br>
+│       └── tela_inicial.png<br>
+│       └── tela_login.png<br>
+│       └── tela_reagendar.png<br>
 
 
 ---
@@ -113,6 +118,17 @@ O sistema conta com uma interface moderna e leve, feita com HTML e CSS puro:
 **Tela de Agendamento**<br><br>
 <img src="static/img/tela_agendas.png" alt="Tela de Agendamento" width="400"/> <br>
 
+**Tela de Consultas**<br><br>
+<img src="static/img/tela_consulta.png" alt="Tela de Consultas" width="400"/> <br>
+
+**Tela de Agendamento de Consultas**<br><br>
+<img src="static/img/tela_agendamento.png" alt="Tela de Consultas" width="400"/> <br>
+
+**Tela de Reagendamento de Consultas**<br><br>
+<img src="static/img/tela_reagendar.png" alt="Tela de Reagendamento de Consultas" width="400"/> <br>
+
+**Tela de Cadastramento de Paciente**<br><br>
+<img src="static/img/tela_cadastro.png" alt="Tela de Cadastramento de Pacientes" width="400"/> <br>
 
 ---
 
@@ -121,6 +137,10 @@ O sistema conta com uma interface moderna e leve, feita com HTML e CSS puro:
 
 🚧 Em desenvolvimento
 
+---
+
 ## 👤 Autor
 João Victor Alexandre Oliveira
+
+---
 
