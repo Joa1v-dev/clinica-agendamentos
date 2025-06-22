@@ -77,4 +77,36 @@ python app.py
 
 4. **Acesse o sistema no navegador**
 
-http://localhost:8080
+*http://localhost:8080*
+
+---
+
+5. **E-mail e Senha para Acesso**
+
+![Tela de Login](static/img/tela.login.png)
+
+
+E-mail:admin@admin
+Senha:admin
+
+---
+
+## 🎨 Interface e Estilo
+
+O sistema conta com uma interface moderna e leve, feita com HTML e CSS puro:
+
+- 🌗 Modo escuro automático (via prefers-color-scheme) e manual (via botão com localStorage)
+- 🎯 Estilo consistente com botões semânticos (sucesso, erro, alerta)
+- 📱 Responsivo para celular, tablet e desktop
+- ⚠️ Validação de campos com HTML5 e feedback de erros em destaque
+- 🔄 Componentes reativos (horários por médico via JavaScript)
+
+---
+
+## 📌 Status do Projeto
+
+🚧 Em desenvolvimento
+
+## 👤 Autor
+João Victor Alexandre Oliveira
+
