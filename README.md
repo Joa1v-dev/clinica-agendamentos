@@ -115,8 +115,8 @@ O sistema conta com uma interface moderna e leve, feita com HTML e CSS puro:
 **Tela Inicial**<br><br>
 <img src="static/img/tela_inicial.png" alt="Tela Inicial" width="400"/> <br>
 
-**Tela de Agendamento**<br><br>
-<img src="static/img/tela_agendas.png" alt="Tela de Agendamento" width="400"/> <br>
+**Tela de Agenda**<br><br>
+<img src="static/img/tela_agendas.png" alt="Tela de consultas" width="400"/> <br>
 
 **Tela de Consultas**<br><br>
 <img src="static/img/tela_consulta.png" alt="Tela de Consultas" width="400"/> <br>
