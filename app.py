@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 import sqlite3
 from datetime import datetime
+from werkzeug.security import generate_password_hash
+
 
 app = Flask(__name__)
 app.secret_key = 'admin123'
@@ -273,6 +275,38 @@ def reagendar_consulta(consulta_id):
     conn.close()
 
     return render_template('reagendar.html', consulta_id=consulta_id, medicos=medicos)
+
+@app.route('/cadastro_usuario', methods=['GET', 'POST'])
+def cadastro_usuario():
+    if 'atendente_id' not in session:
+        return redirect(url_for('login'))
+
+    if request.method == 'POST':
+        nome = request.form['nome']
+        email = request.form['email']
+        senha = request.form['senha']
+
+        senha_hash = generate_password_hash(senha)
+
+        try:
+            conn = get_db_connection()
+            cursor = conn.cursor()
+            cursor.execute(
+                'INSERT INTO usuario (nome, email, senha_hash) VALUES (?, ?, ?)',
+                (nome, email, senha_hash)
+            )
+            conn.commit()
+            flash('Paciente cadastrado com sucesso!')
+        except sqlite3.IntegrityError:
+            flash('⚠️ Já existe um paciente com esse e-mail.')
+        finally:
+            conn.close()
+
+        return redirect(url_for('agendar'))
+
+    return render_template('cadastro_usuario.html')
+
+
 
 
 

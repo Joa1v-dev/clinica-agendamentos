@@ -22,6 +22,8 @@
 
         <form method="POST" class="form">
             <label for="usuario">Paciente</label>
+            <a href="{{ url_for('cadastro_usuario') }}" class="btn-secondary" style="margin-bottom: 15px;">➕ Cadastrar Novo Paciente</a>
+
             <select name="usuario" id="usuario" required>
                 <option value="">Selecione um paciente</option>
                 {% for u in usuarios %}

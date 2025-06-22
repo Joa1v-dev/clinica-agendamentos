@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Paciente</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>➕ Novo Paciente</h2>
+        <a href="{{ url_for('agendar') }}" class="btn-secondary">← Voltar para Agendamento</a><br><br>
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="flash-message">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% endwith %}
+
+        <form method="POST" class="form">
+            <label for="nome">Nome Completo</label>
+            <input type="text" id="nome" name="nome" required placeholder="Nome do paciente">
+
+            <label for="email">E-mail</label>
+            <input type="email" id="email" name="email" required placeholder="exemplo@email.com">
+
+            <label for="senha">Senha</label>
+            <input type="password" id="senha" name="senha" required placeholder="••••••••">
+
+
+            <button type="submit" class="btn-primary">💾 Cadastrar Paciente</button>
+        </form>
+    </div>
+</body>
+</html>

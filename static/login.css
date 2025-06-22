@@ -102,3 +102,13 @@ button:hover {
         border: 1px solid #a94442;
     }
 }
+
+
+body {
+    background-image: url("/static/img/imagem_clinica.png");
+    background-size: cover;               /* preenche toda a tela */
+    background-position: center center;   /* centraliza */
+    background-repeat: no-repeat;         /* sem repetição */
+    background-attachment: fixed;         /* fixa no fundo */
+}
+
