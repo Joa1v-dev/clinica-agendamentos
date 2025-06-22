@@ -104,12 +104,14 @@ O sistema conta com uma interface moderna e leve, feita com HTML e CSS puro:
 
 ## 💻Demonstração das Telas
 
-**Tela de Login** <br>
+**Tela de Login** <br><br>
 <img src="static/img/tela_login.png" alt="Tela de Login" width="400"/> <br>
 
-**Tela Inicial**<br>
+**Tela Inicial**<br><br>
 <img src="static/img/tela_inicial.png" alt="Tela Inicial" width="400"/> <br>
 
+**Tela de Agendamento**<br><br>
+<img src="static/img/tela_agendas.png" alt="Tela de Agendamento" width="400"/> <br>
 
 
 ---
