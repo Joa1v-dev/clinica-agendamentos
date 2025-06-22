@@ -85,9 +85,6 @@ python app.py
 
 <img src="static/img/tela_login.png" alt="Tela de Login" width="400"/>
 
-![Tela de Login](static/img/tela_login.png)
-
-
 **E-mail**: `admin@admin`<br>
 **Senha**: `admin`<br>
 
