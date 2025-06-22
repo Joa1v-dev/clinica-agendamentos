@@ -67,48 +67,37 @@ button:hover {
 
 /* 🌙 Dark Mode */
 
-@media (prefers-color-scheme: dark) {
-    body {
-        background-color: #121212;
-        color: #e0e0e0;
-    }
-
-    .login-container {
-        background-color: #1e1e1e;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
-    }
-
-    h2 {
-        color: #fff;
-    }
-
-    .form input {
-        background-color: #2a2a2a;
-        color: #e0e0e0;
-        border: 1px solid #555;
-    }
-
-    button {
-        background-color: #1976d2;
-    }
-
-    button:hover {
-        background-color: #1565c0;
-    }
-
-    .flash-message {
-        background-color: #512b2b;
-        color: #f8d7da;
-        border: 1px solid #a94442;
-    }
+#toggle-dark-mode {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    z-index: 999;
+    transition: background-color 0.3s ease;
 }
+
+#toggle-dark-mode:hover {
+    background-color: #2980b9;
+}
+
+body.modo-escuro #toggle-dark-mode {
+    background-color: #1565c0;
+}
+
 
 
 body {
-    background-image: url("/static/img/imagem_clinica.png");
-    background-size: cover;               /* preenche toda a tela */
-    background-position: center center;   /* centraliza */
-    background-repeat: no-repeat;         /* sem repetição */
-    background-attachment: fixed;         /* fixa no fundo */
+    background-image: url("/static/img/fundo_azul.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
+
 

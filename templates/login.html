@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Login - Clínica</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
     <style>
         .login-wrapper {
-            display: flex;
             min-height: 100vh;
-        }
+            display: flex;
+            align-items: center;
+            justify-content: center;
+}
 
         .login-image {
             flex: 1;
@@ -18,12 +20,10 @@
         }
 
         .login-form {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background-color: rgba(9, 3, 26, 0.9);
             padding: 40px;
-            background-color: #093946;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
         }
 
         .form-box {
@@ -44,7 +44,6 @@
 </head>
 <body>
     <div class="login-wrapper">
-        <div class="login-image"></div>
         <div class="login-form">
             <div class="form-box">
                 <h2>🔐 Acesso ao Sistema</h2>
@@ -71,5 +70,6 @@
             </div>
         </div>
     </div>
+    
 </body>
 </html>

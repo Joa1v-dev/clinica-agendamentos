@@ -7,6 +7,7 @@
 </head>
 <body>
     <div class="container">
+        <button id="modo-toggle" class="btn-secondary" style="float: right;">🌓 Dark Mode</button>
         <h2>➕ Novo Paciente</h2>
         <a href="{{ url_for('agendar') }}" class="btn-secondary">← Voltar para Agendamento</a><br><br>
 
@@ -34,5 +35,29 @@
             <button type="submit" class="btn-primary">💾 Cadastrar Paciente</button>
         </form>
     </div>
+
+    <script>
+    const toggle = document.getElementById('modo-toggle');
+    const body = document.body;
+
+    // Carregar modo salvo
+    if (localStorage.getItem('modo') === 'dark') {
+        body.classList.add('modo-escuro');
+        toggle.textContent = '🌞 Light Mode';
+    }
+
+    toggle.addEventListener('click', () => {
+        body.classList.toggle('modo-escuro');
+
+        if (body.classList.contains('modo-escuro')) {
+            localStorage.setItem('modo', 'dark');
+            toggle.textContent = '🌞 Light Mode';
+        } else {
+            localStorage.setItem('modo', 'light');
+            toggle.textContent = '🌓 Dark Mode';
+        }
+    });
+</script>
+
 </body>
 </html>

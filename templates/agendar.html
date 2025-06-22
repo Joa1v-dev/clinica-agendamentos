@@ -7,6 +7,7 @@
 </head>
 <body>
     <div class="container">
+        <button id="modo-toggle" class="btn-secondary" style="float: right;">🌓 Dark Mode</button>
         <h2>📅 Agendar Consulta</h2>
         <a href="{{ url_for('home') }}" class="btn-secondary">← Voltar ao Início</a><br><br>
 
@@ -78,5 +79,28 @@
             });
     });
     </script>
+
+    <script>
+    const toggle = document.getElementById('modo-toggle');
+    const body = document.body;
+
+    // Carregar modo salvo
+    if (localStorage.getItem('modo') === 'dark') {
+        body.classList.add('modo-escuro');
+        toggle.textContent = '🌞 Light Mode';
+    }
+
+    toggle.addEventListener('click', () => {
+        body.classList.toggle('modo-escuro');
+
+        if (body.classList.contains('modo-escuro')) {
+            localStorage.setItem('modo', 'dark');
+            toggle.textContent = '🌞 Light Mode';
+        } else {
+            localStorage.setItem('modo', 'light');
+            toggle.textContent = '🌓 Dark Mode';
+        }
+    });
+</script>
 </body>
 </html>

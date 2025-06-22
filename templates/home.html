@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="container">
-        <button id="modo-toggle" class="btn-secondary" style="float: right;">🌙 Modo Escuro</button>
+        <button id="modo-toggle" class="btn-secondary" style="float: right;">🌓 Dark Mode</button>
 
         <h2>👋 Olá, {{ nome }}!</h2>
         <p>Bem-vindo(a) ao sistema de agendamento da clínica.</p>
@@ -29,7 +29,7 @@
     // Carregar modo salvo
     if (localStorage.getItem('modo') === 'dark') {
         body.classList.add('modo-escuro');
-        toggle.textContent = '🌞 Modo Claro';
+        toggle.textContent = '🌞 Light Mode';
     }
 
     toggle.addEventListener('click', () => {
@@ -37,10 +37,10 @@
 
         if (body.classList.contains('modo-escuro')) {
             localStorage.setItem('modo', 'dark');
-            toggle.textContent = '🌞 Modo Claro';
+            toggle.textContent = '🌞 Light Mode';
         } else {
             localStorage.setItem('modo', 'light');
-            toggle.textContent = '🌙 Modo Escuro';
+            toggle.textContent = '🌓 Dark Mode';
         }
     });
 </script>

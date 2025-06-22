@@ -63,6 +63,7 @@ button,
 .btn-primary,
 .btn-success,
 .btn-danger,
+.btn-link,
 .btn-secondary {
     border: none;
     border-radius: 6px;
@@ -89,6 +90,7 @@ button:hover,
 
 .btn-success {
     background-color: #28a745;
+    font-weight: bold;
 }
 
 .btn-danger {
@@ -106,12 +108,12 @@ button:hover,
 }
 
 .btn-link {
+    background-color: #eb3f3f;
     display: inline-block;
     margin-bottom: 20px;
-    color: #5a5af0;
-    background: none;
-    border: none;
-    padding: 0;
+    color: #ffffff;
+    padding: 4px 10px;
+    font-weight: bold;
 }
 
 .btn-link:hover {
