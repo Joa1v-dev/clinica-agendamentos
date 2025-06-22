@@ -8,6 +8,8 @@
 </head>
 <body>
     <div class="container">
+        <button id="modo-toggle" class="btn-secondary" style="float: right;">🌙 Modo Escuro</button>
+
         <h2>👋 Olá, {{ nome }}!</h2>
         <p>Bem-vindo(a) ao sistema de agendamento da clínica.</p>
 
@@ -19,5 +21,29 @@
         <p class="text-muted">Você está logado como atendente.</p>
         <a href="{{ url_for('logout') }}" class="btn-link">🔓 Sair</a>
     </div>
+
+    <script>
+    const toggle = document.getElementById('modo-toggle');
+    const body = document.body;
+
+    // Carregar modo salvo
+    if (localStorage.getItem('modo') === 'dark') {
+        body.classList.add('modo-escuro');
+        toggle.textContent = '🌞 Modo Claro';
+    }
+
+    toggle.addEventListener('click', () => {
+        body.classList.toggle('modo-escuro');
+
+        if (body.classList.contains('modo-escuro')) {
+            localStorage.setItem('modo', 'dark');
+            toggle.textContent = '🌞 Modo Claro';
+        } else {
+            localStorage.setItem('modo', 'light');
+            toggle.textContent = '🌙 Modo Escuro';
+        }
+    });
+</script>
+
 </body>
 </html>

@@ -312,3 +312,55 @@ td form {
         background-color: #a71d1a;
     }
 }
+
+/* 🎨 Modo escuro manual via classe */
+
+body.modo-escuro {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+body.modo-escuro .container {
+    background-color: #1e1e1e;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+}
+
+body.modo-escuro h2,
+body.modo-escuro th,
+body.modo-escuro td {
+    color: #e0e0e0;
+}
+
+body.modo-escuro table {
+    background-color: #1e1e1e;
+}
+
+body.modo-escuro table th {
+    background-color: #2a2a2a;
+    border-bottom: 2px solid #444;
+}
+
+body.modo-escuro table td {
+    border-bottom: 1px solid #333;
+}
+
+body.modo-escuro table tbody tr:nth-child(even) {
+    background-color: #202020;
+}
+
+body.modo-escuro table tbody tr:hover {
+    background-color: #2b2b2b;
+}
+
+body.modo-escuro input,
+body.modo-escuro select {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border: 1px solid #555;
+}
+
+body.modo-escuro .flash-message {
+    background-color: #333;
+    color: #f8d7da;
+    border: 1px solid #a94442;
+}
