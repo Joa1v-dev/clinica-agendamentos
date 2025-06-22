@@ -135,7 +135,7 @@ O sistema conta com uma interface moderna e leve, feita com HTML e CSS puro:
 
 ## 📌 Status do Projeto
 
-🚧 Em desenvolvimento
+🚧 Em desenvolvimento...
 
 ---
 
