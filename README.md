@@ -85,8 +85,8 @@ python app.py
 
 5. **E-mail e Senha para Acesso**
 
-**E-mail**: `admin@admin`<br>
-**Senha**: `admin`<br>
+    **E-mail**: `admin@admin`<br>
+    **Senha**: `admin`<br>
 
 ---
 
@@ -104,10 +104,10 @@ O sistema conta com uma interface moderna e leve, feita com HTML e CSS puro:
 
 ## 💻Demonstração das Telas
 
-**Tela de Login**
+**Tela de Login** <br>
 <img src="static/img/tela_login.png" alt="Tela de Login" width="400"/> <br>
 
-**Tela Inicial**
+**Tela Inicial**<br>
 <img src="static/img/tela_inicial.png" alt="Tela Inicial" width="400"/> <br>
 
 
