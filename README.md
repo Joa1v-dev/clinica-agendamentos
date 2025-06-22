@@ -83,11 +83,13 @@ python app.py
 
 5. **E-mail e Senha para Acesso**
 
+<img src="static/img/tela_login.png" alt="Tela de Login" width="400"/>
+
 ![Tela de Login](static/img/tela_login.png)
 
 
-E-mail:admin@admin<br>
-Senha:admin<br>
+**E-mail**: `admin@admin`<br>
+**Senha**: `admin`<br>
 
 ---
 
