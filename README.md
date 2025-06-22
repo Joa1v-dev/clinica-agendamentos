@@ -77,13 +77,13 @@ python app.py
 
 4. **Acesse o sistema no navegador**
 
-*http://localhost:8080*
+   *http://localhost:8080*
 
 ---
 
 5. **E-mail e Senha para Acesso**
 
-![Tela de Login](static/img/tela.login.png)
+![Tela de Login](static/img/tela_login.png)
 
 
 E-mail:admin@admin
